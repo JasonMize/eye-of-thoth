@@ -28,9 +28,4 @@ class GameControl(object):
 	def load_game(self):
 		pass
 
-	def create_character(self):
-		print ("What is your name?")
-		player = input("\t> ")	
-
-		Display.menu_options(self)
 

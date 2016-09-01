@@ -6,8 +6,8 @@ class Display(object):
 		pass
 
 	def menu_options (self):
-		print ("1. save/load game")
-		print ("2. some other option")	
+		print ("1. save game")
+		print ("2. load game")	
 
 	def rebuild_display (self):
 		pass	
