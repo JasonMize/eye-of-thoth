@@ -8,3 +8,6 @@ class Display(object):
 	def menu_options (self):
 		print ("1. save/load game")
 		print ("2. some other option")	
+
+	def clear_screen (self):
+		pass	
