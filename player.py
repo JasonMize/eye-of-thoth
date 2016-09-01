@@ -1,7 +1,15 @@
 
 
 class Player(object):
-	def __init__(self):
+
+	player = {
+		"name" : "",
+		"health" : 4,
+		"sanity" : 4,
+		"inventory" : "",
+	}
+
+	def __init__(self, name):
 		pass
 
 	def health(self):

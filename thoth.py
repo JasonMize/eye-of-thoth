@@ -1,9 +1,9 @@
-from game_control import GameControl
+from display import Display
 
 def main ():
 	'''Main loop '''
-	game = GameControl()
-	game.create_character()
+	display = Display()
+	display.rebuild_display()
 
 if  __name__ == '__main__':
 	main()
