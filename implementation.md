@@ -12,15 +12,25 @@
 
 ###Player
 1. health - decrements as player fights monsters
+
 *Health
+
 *Battered
+
 *Mauled
+
 *Dead
+
 2. sanity - decrements as player flees from monsters
+
 *Sane
+
 *Colorful
+
 *Loopy
+
 *Insane
+
 3. inventory - list of objects usable by player that are present regardless of player location
 4. player_creation - if no player exists, walk player through creation 
 
@@ -28,14 +38,20 @@
 1. item_desc - description of the item
 2. item_name - item name
 3. item_function - use of item
+
 *Weapon
+
 *Key
+
 *Effect - heals or damages player when used
 
 ###GameControl
 1. save_game - saves game state
+
 *player stats
+
 *room location
+
 2. load_game - loads game state
 
 ###Room
@@ -46,8 +62,11 @@
 
 ###Display
 1. menu_options - options that are always present
+
 #Save Game
+
 #Load Game
+
 2. rebuild_display - resets display to new state when option is selected
 
 
