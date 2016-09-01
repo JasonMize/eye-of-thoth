@@ -46,8 +46,8 @@
 
 ###Display
 1. menu_options - options that are always present
-  # Save Game
-  # Load Game
+  * Save Game
+  * Load Game
 2. rebuild_display - resets display to new state when option is selected
 
 
