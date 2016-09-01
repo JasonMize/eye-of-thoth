@@ -9,5 +9,5 @@ class Display(object):
 		print ("1. save/load game")
 		print ("2. some other option")	
 
-	def clear_screen (self):
+	def rebuild_display (self):
 		pass	
