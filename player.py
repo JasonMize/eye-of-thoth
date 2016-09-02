@@ -22,7 +22,7 @@ class Player(object):
 		pass
 
 	def player_creation(self):
-		print ("What is your name?")
+		print ("\tWhat is your name?")
 		player = input("\t> ")	
 
 
