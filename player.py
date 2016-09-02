@@ -1,16 +1,12 @@
 
-
 class Player(object):
 
-	player = {
-		"name" : "",
-		"health" : 4,
-		"sanity" : 4,
-		"inventory" : "",
-	}
-
-	def __init__(self, name):
-		pass
+	def __init__(self, display):
+		self.display = display 
+		self.name = ""
+		self.health = "Sound In Body"
+		self.sanity = "Sound In Mind"
+		self.inventory = ""
 
 	def health(self):
 		pass
@@ -23,8 +19,10 @@ class Player(object):
 
 	def player_creation(self):
 		print ("\tWhat is your name?")
-		player = input("\t> ")	
+		self.name = input("\t> ")
+		self.display.rebuild_display(location="atrium")
 
+		
 
 
 
