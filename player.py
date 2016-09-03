@@ -20,7 +20,8 @@ class Player(object):
 	def player_creation(self):
 		print ("\tWhat is your name?")
 		self.name = input("\t> ")
-		self.display.rebuild_display(location="atrium")
+		self.display.location = "atrium"
+		self.display.rebuild_display()
 
 		
 
