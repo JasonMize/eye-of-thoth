@@ -3,7 +3,12 @@ from display import Display
 def main ():
 	'''Main loop '''
 	display = Display()
-	display.rebuild_display()
+	while display.alive():
+		display.rebuild_display()
+		display.player_input()	
+		display.menu_input_handler()
+		
+
 
 if  __name__ == '__main__':
 	main()

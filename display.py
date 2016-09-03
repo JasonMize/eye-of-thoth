@@ -39,6 +39,11 @@ class Display(object):
 		self.location = "start"
 		self.error = False
 		self.error_type = ""
+		self.is_alive = True
+
+	#overall game keeps running	
+	def alive (self):
+		return self.is_alive	
 
 
 	def description(self):
@@ -47,9 +52,7 @@ class Display(object):
 			print("\t" + textwrap.fill(self.DESCRIPTIONS["start1"], self.text_width))
 			print("\n")
 			print("\t" + textwrap.fill(self.DESCRIPTIONS["start2"], self.text_width))
-		elif self.location =="create_player":
-			self.player.player_creation()
-
+		
 		elif self.location =="atrium":
 			self.room.room_north = "closed door"
 			self.room.room_south = "exit"
@@ -64,86 +67,73 @@ class Display(object):
 
 
 	#action to take when player_selection made		
-	def menu(self):
+	def menu_input_handler(self):
 		#options if you are in the atrium		
 		if self.location == "atrium":
 			#open the door
-			if self.player_selection == "w" or self.player_selection == "W":
+			if self.player_selection == "w":
 				pass
 			#turn and flee the house
-			elif self.player_selection == "s" or self.player_selection == "S":
+			elif self.player_selection == "s":
 				pass
 			#room on right
-			elif self.player_selection == "d" or self.player_selection == "D":
+			elif self.player_selection == "d":
 				pass
 			#room on left
-			elif self.player_selection == "a" or self.player_selection == "A":
+			elif self.player_selection == "a":
 				pass
 			else: 
 				pass
+		if self.location == "create_player":
+			self.player.player_reset(self.player_selection)
+			self.location = "atrium"
 
 		#create new player		
-		elif self.player_selection == "n" or self.player_selection == "N":
+		elif self.player_selection == "n":
 			self.location="create_player"
-			self.rebuild_display()
 			
 		#save game
-		elif self.player_selection == "c" or self.player_selection == "C":
+		elif self.player_selection == "c":
 			pass
 		
 		#load game	
-		elif self.player_selection == "v" or self.player_selection == "V":
+		elif self.player_selection == "v":
 			pass
 
 		#quit
-		elif self.player_selection == "x" or self.player_selection == "X":
-			sys.exit
+		elif self.player_selection == "x":
+			self.is_alive = False
 	
 		#invalid input	
 		else:
-			self.display_selection_error("error1")
-
+			self.display_selection_error("error1")	
 
 
 	def display_selection_error(self, error_type):
 		self.error = True
 		self.error_type = "error1"
-		self.rebuild_display()
 
 
 	#get player input and send it to the action function
 	def player_input(self):
-		print("\n\tWhat would you like to do?")
-		self.player_selection = input("\t> ")
-
-		self.menu()
-
+		if self.location == "create_player":
+			self.player_selection = input("\t> ")
+		else:	
+			self.player_selection = input("\t> ").lower()
+			
 
 	def HUD (self):		
 		print("\tSANITY: {}\t\t{}\t\tHEALTH: {}"
-			.format(self.player.sanity, self.player.name, self.player.health ))
+			.format(self.player.get_sanity(), self.player.name, self.player.get_health() ))
 
 
-	#after every action, create new screen	
-	def rebuild_display (self):
-
-		#wipe screen
-		os.system('clear')
-	
-		#title
+	def title (self):
 		print("\t╔╦╗┬ ┬┌─┐  ╔═╗┬ ┬┌─┐  ╔═╗┌─┐  ╔╦╗┬ ┬┌─┐┌┬┐┬ ┬")
 		print("\t ║ ├─┤├┤   ║╣ └┬┘├┤   ║ ║├┤    ║ ├─┤│ │ │ ├─┤")
 		print("\t ╩ ┴ ┴└─┘  ╚═╝ ┴ └─┘  ╚═╝└     ╩ ┴ ┴└─┘ ┴ ┴ ┴")
+	
 
-		#HUD
-		self.HUD()
-		print("\n")
-
-		#description
-		self.description()
-		print("\n")
-
-		#error messages
+	def error_message (self):
 		if self.error: 
 			print("\t*" * 5)
 			print("\t" + textwrap.fill(self.DESCRIPTIONS["error1"], self.text_width)
@@ -152,10 +142,8 @@ class Display(object):
 
 			self.error = False
 
-		#room specific menu options
-		self.room.movement_options()
 
-		#standard menu options
+	def print_standard_menu(self):
 		#if player name exists 
 		if self.player.name:		
 			for option in self.MENU:
@@ -166,8 +154,38 @@ class Display(object):
 				print("\t" + option)
 
 		#player input	
-		self.player_selection = self.player_input()	
+		print("\n\tWhat would you like to do?")
 
+
+	#after every action, create new screen	
+	def rebuild_display (self):
+
+		#wipe screen
+		os.system('clear')
+
+		#title
+		self.title()
+
+		#HUD
+		self.HUD()
+		print("\n")
+
+		#description
+		self.description()
+		print("\n")
+
+		#error messages
+		self.error_message()
+
+		#create a player - otherwise print menus
+		if self.location == "create_player":
+			print ("\tWhat is your name?")
+		else:		
+			#room specific menu options
+			self.room.movement_options()
+
+			#standard menu options
+			self.print_standard_menu()
 
 		print("\n")
 
