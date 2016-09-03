@@ -10,23 +10,25 @@ class Display(object):
 
 	MENU_NO_PLAYER = (
 		"N = New Character",
-		"V = Load Game",
+		# "V = Load Game",
 		"X = Quit",
 	)
 
 	MENU = (
-		"C = Save Game",
-		"V = Load Game",
+		# "C = Save Game",
+		# "V = Load Game",
 		"X = Quit",
 	)
 	
 	DESCRIPTIONS = {
 		"error1" : "'{}' is an invalid option, please try again.",
-		"start1" : "Obsessed with the occult, a rumor has reached you that the fabled Eye Of Thoth can be found in the dilapidated mansion of arcane explorer Archibald Hammer.",
-		"start2" : "Ignoring the fact that Archibald hasn't been seen in 20 years and his mansion is supposedly 'haunted', you decide to pay Archie a little visit...",
-		"atrium1" : "Lightning flashes as you kick in the front door. Clicking on your flashlight, you step across the threshold.",
-		"atrium2" : "Playing your flashlight around the room you see an enormous chandelier glittering above a plush floor rug. In the dimness, it is hard to tell if the rugstain is wine or blood.",
-		"atrium3" : "Straight ahead is a {}. Behind you is the is {}. To the right appears to be a {}. To the left an enormous {}.",
+		"start" : ("Obsessed with the occult, a rumor has reached you that the fabled Eye Of Thoth can be found in the dilapidated mansion of arcane explorer Archibald Hammer.",
+			"Ignoring the fact that Archibald hasn't been seen in 20 years and his mansion is supposedly 'haunted', you decide to pay Archie a little visit...",
+			),
+		"atrium" : ("Lightning flashes as you kick in the front door. Clicking on your flashlight, you step across the threshold.", 
+			"Playing your flashlight around the room you see an enormous chandelier glittering above a plush floor rug. In the dimness, it is hard to tell if the rugstain is wine or blood.",
+			),
+		"atrium_directions" : "Straight ahead is a {}. Behind you is the {}. To the right appears to be a {}. To the left an enormous {}.",
 	}
 
 
@@ -49,21 +51,19 @@ class Display(object):
 	def description(self):
 		#player doesn't exist (dead or new game)	
 		if self.location == "start":
-			print("\t" + textwrap.fill(self.DESCRIPTIONS["start1"], self.text_width))
-			print("\n")
-			print("\t" + textwrap.fill(self.DESCRIPTIONS["start2"], self.text_width))
+			for item in self.DESCRIPTIONS["start"]:
+				print("\t" + textwrap.fill(item, self.text_width))
+				print("\n")
 		
 		elif self.location =="atrium":
 			self.room.room_north = "closed door"
 			self.room.room_south = "exit"
 			self.room.room_east = random.choice(self.room.ROOM)
 			self.room.room_west = random.choice(self.room.ROOM)
-			print("\t" + textwrap.fill(self.DESCRIPTIONS["atrium1"], self.text_width))	
-			print("\n")
-			print("\t" + textwrap.fill(self.DESCRIPTIONS["atrium2"], self.text_width))	
-			print("\n")
-			print("\t" + textwrap.fill(self.DESCRIPTIONS["atrium3"], self.text_width)
-				.format(self.room.room_north, self.room.room_south, self.room.room_east, self.room.room_west))	
+			for item in self.DESCRIPTIONS["atrium"]:
+				print("\t" + textwrap.fill(item, self.text_width))
+				print("\n")
+			print("\t" + textwrap.fill(self.DESCRIPTIONS["atrium_directions"], self.text_width).format(self.room.room_north, self.room.room_south, self.room.room_east, self.room.room_west))	
 
 
 	#action to take when player_selection made		
@@ -186,9 +186,6 @@ class Display(object):
 
 			#standard menu options
 			self.print_standard_menu()
-
-		print("\n")
-
 
 
 
