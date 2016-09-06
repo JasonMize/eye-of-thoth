@@ -17,7 +17,6 @@ class Room (object):
 
 
 	def __init__(self, display):
-		self.display = display
 		self.room_south = ""
 		self.room_north = ""
 		self.room_east = ""
@@ -56,14 +55,7 @@ class Room (object):
 
 		if self.display.location == "atrium":
 			for key, value in MENU_MOVEMENT_ATRIUM.items():
-				if key == "W":
-					print("\t" + value)
-				elif key == "S":
-					print("\t" + value)	
-				elif key == "D":	
-					print("\t" + value)
-				elif key == "A":
-					print("\t" + value)	
-
+				print("\t" + value)
+	
 
 

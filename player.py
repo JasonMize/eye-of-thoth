@@ -16,8 +16,8 @@ class Player(object):
 	}
 
 
-	def __init__(self, display):
-		self.display = display 
+	def __init__(self):
+		self.is_alive = True
 		self.name = ""
 		self.health = 4
 		self.sanity = 4

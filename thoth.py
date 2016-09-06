@@ -1,12 +1,12 @@
 from display import Display
-
+from player import Player
 
 display = Display()
-
+player = Player()
 
 #overall game keeps running	
 def alive ():
-	return display.is_alive
+	return player.is_alive
 
 
 def main ():
