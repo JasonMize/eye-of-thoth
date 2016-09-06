@@ -1,5 +1,7 @@
+from display import Display
 
-class Room (object):
+
+class DisplayRoom (Display):
 	
 	ROOM = (
 		"Library", 
@@ -16,7 +18,8 @@ class Room (object):
 
 
 
-	def __init__(self, display):
+	def __init__(self):
+		super(DisplayRoom, self).__init__()
 		self.room_south = ""
 		self.room_north = ""
 		self.room_east = ""
@@ -33,12 +36,12 @@ class Room (object):
 			"2" : "2. = Crush The Serpent Head Beneath Your Heel",
 		}
 
-		if self.display.location == "start":
+		if self.location == "start":
 			for key, value in MENU_ACTION_START.items():
 				if key == "N":
 					print ("\t" + value)				
 
-		elif self.display.location == "atrium_closet":
+		elif self.location == "atrium_closet":
 			for key, value in MENU_ACTION_ATRIUM_CLOSET.items():
 				print ("\t" + value)
 
@@ -53,7 +56,7 @@ class Room (object):
 			"A" : "A = Enter The Dining Hall",
 		}
 
-		if self.display.location == "atrium":
+		if self.location == "atrium":
 			for key, value in MENU_MOVEMENT_ATRIUM.items():
 				print("\t" + value)
 	

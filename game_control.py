@@ -2,8 +2,6 @@ import os
 
 import yaml
 
-from display import Display
-
 
 class GameControl(object):
 
@@ -27,5 +25,7 @@ class GameControl(object):
 	
 	def load_game(self):
 		pass
+
+
 
 
