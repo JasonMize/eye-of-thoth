@@ -24,30 +24,46 @@ class Room (object):
 		self.room_west = ""
 
 
+	#print action options for various rooms	
+	def print_action_options(self):
+		MENU_ACTION_START = {
+			"N" : "N = New Character",
+		}
+		MENU_ACTION_ATRIUM_CLOSET = {
+			"1" : "1. = Slam The Closet Door",
+			"2" : "2. = Crush The Serpent Head Beneath Your Heel",
+		}
+
+		if self.display.location == "start":
+			for key, value in MENU_ACTION_START.items():
+				if key == "N":
+					print ("\t" + value)				
+
+		elif self.display.location == "atrium_closet":
+			for key, value in MENU_ACTION_ATRIUM_CLOSET.items():
+				print ("\t" + value)
+
+
+
 	#print movement options for various rooms	
-	def movement_options(self):
-		MENU_ATRIUM = {
+	def print_movement_options(self):
+		MENU_MOVEMENT_ATRIUM = {
 			"W" : "W = Open The Door",
 			"S" : "S = Turn And Flee The House",
-			"D" : "D = Enter The {}",
-			"A" : "A = Enter The {}",
+			"D" : "D = Enter The Library",
+			"A" : "A = Enter The Dining Hall",
 		}
 
 		if self.display.location == "atrium":
-			for key, value in MENU_ATRIUM.items():
+			for key, value in MENU_MOVEMENT_ATRIUM.items():
 				if key == "W":
 					print("\t" + value)
 				elif key == "S":
 					print("\t" + value)	
 				elif key == "D":	
-					print("\t" + value.format(self.room_east))
+					print("\t" + value)
 				elif key == "A":
-					print("\t" + value.format(self.room_west))	
-		
+					print("\t" + value)	
 
-	def monster(self):
-		pass	
-
- 
 
 

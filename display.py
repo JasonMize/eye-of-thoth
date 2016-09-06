@@ -8,44 +8,44 @@ from room import Room
 
 class Display(object):
 
-	MENU_NO_PLAYER = (
-		"N = New Character",
-		# "V = Load Game",
-		"X = Quit",
-	)
-
-	MENU = (
-		# "C = Save Game",
-		# "V = Load Game",
+	MENU_CONSTANTS = (
 		"X = Quit",
 	)
 	
 	DESCRIPTIONS = {
 		"error1" : "'{}' is an invalid option, please try again.",
+		"error2" : "That name is too long. 10 characters or less, please.",
+		"error_insane" : ("Maybe a quiet cup of tea would help you regain a bit of sanity?",
+			"GAME OVER",
+			),
 		"start" : ("Obsessed with the occult, a rumor has reached you that the fabled Eye Of Thoth can be found in the dilapidated mansion of arcane explorer Archibald Hammer.",
 			"Ignoring the fact that Archibald hasn't been seen in 20 years and his mansion is supposedly 'haunted', you decide to pay Archie a little visit...",
+			),
+		"create_player" : "What is your name?",
+		"exit" : ("That rug is far too ominous. You turn tail and flee into the night.", 
+			"As the weeks pass, thoughts about your missed opportunity turn into an obsession. Then into a mania.",
+			"Insanity insues.",
 			),
 		"atrium" : ("Lightning flashes as you kick in the front door. Clicking on your flashlight, you step across the threshold.", 
 			"Playing your flashlight around the room you see an enormous chandelier glittering above a plush floor rug. In the dimness, it is hard to tell if the rugstain is wine or blood.",
 			),
-		"atrium_directions" : "Straight ahead is a {}. Behind you is the {}. To the right appears to be a {}. To the left an enormous {}.",
+		"atrium_directions" : "Straight ahead is a closed door. Behind you is the exit. To the right appears to be a library. To the left an enormous dining hall.",
+		"atrium_closet" : ("Stepping forward across the winestained rug (blood?), you grasp the doorknob firmly and open the door.",
+			"You are unsurprised to discover a closet full of moth eaten fur coats... and then a small movement pulls your eye to the shadowy floor.", 
+			"The shadows are completely filled with the overlapping coils of the largest serpent you have ever seen."),
 	}
 
 
 	def __init__(self):
-
 		self.player = Player(self)
 		self.room = Room(self)
+		self.is_alive = True
 		self.text_width = 80
 		self.player_selection = ""
 		self.location = "start"
-		self.error = False
-		self.error_type = ""
-		self.is_alive = True
+		self.error = "no_error"
+		self.list_of_possible_player_selections = []
 
-	#overall game keeps running	
-	def alive (self):
-		return self.is_alive	
 
 
 	def description(self):
@@ -55,106 +55,125 @@ class Display(object):
 				print("\t" + textwrap.fill(item, self.text_width))
 				print("\n")
 		
-		elif self.location =="atrium":
-			self.room.room_north = "closed door"
-			self.room.room_south = "exit"
-			self.room.room_east = random.choice(self.room.ROOM)
-			self.room.room_west = random.choice(self.room.ROOM)
+		elif self.location == "create_player":
+			print("\t" + textwrap.fill(self.DESCRIPTIONS["create_player"], self.text_width))
+
+		elif self.location == "atrium":
 			for item in self.DESCRIPTIONS["atrium"]:
 				print("\t" + textwrap.fill(item, self.text_width))
 				print("\n")
-			print("\t" + textwrap.fill(self.DESCRIPTIONS["atrium_directions"], self.text_width).format(self.room.room_north, self.room.room_south, self.room.room_east, self.room.room_west))	
+			print("\t" + textwrap.fill(self.DESCRIPTIONS["atrium_directions"], self.text_width))	
+
+		elif self.location == "exit":
+			for item in self.DESCRIPTIONS["exit"]:	
+				print("\t" + textwrap.fill(item, self.text_width))
+				print("\n")
+		elif self.location == "atrium_closet":
+			for item in self.DESCRIPTIONS["atrium_closet"]:
+				print ("\t" + textwrap.fill(item, self.text_width))	
+				print("\n")
 
 
-	#action to take when player_selection made		
-	def menu_input_handler(self):
-		#options if you are in the atrium		
-		if self.location == "atrium":
-			#open the door
-			if self.player_selection == "w":
-				pass
-			#turn and flee the house
-			elif self.player_selection == "s":
-				pass
-			#room on right
-			elif self.player_selection == "d":
-				pass
-			#room on left
-			elif self.player_selection == "a":
-				pass
-			else: 
-				pass
-		if self.location == "create_player":
-			self.player.player_reset(self.player_selection)
-			self.location = "atrium"
+	def input_start(self):			
+		if self.player_selection == "n":
+			self.list_of_possible_player_selections.append(self.player_selection)
+			self.location = "create_player"
 
-		#create new player		
-		elif self.player_selection == "n":
-			self.location="create_player"
-			
-		#save game
-		elif self.player_selection == "c":
-			pass
+
+	def input_create_player(self):
+		self.player.player_reset(self.player_selection)
+		self.location = "atrium"
+		self.player_selection = ""
+
+
+	def input_atrium(self):			
+		#open the door
+		if self.player_selection == "w":
+			self.list_of_possible_player_selections.append(self.player_selection)
+			self.location = "atrium_closet"
+
+		#turn and flee the house
+		elif self.player_selection == "s":
+			self.list_of_possible_player_selections.append(self.player_selection)
+			self.location = "exit"
+			self.error = "error_insane"
+			self.player.sanity_adjustment(-3)
+
+		#room on right
+		elif self.player_selection == "d":
+			self.list_of_possible_player_selections.append(self.player_selection)
+			#TODO
+
+		#room on left
+		elif self.player_selection == "a":
+			self.list_of_possible_player_selections.append(self.player_selection)
+			#TODO
+
 		
-		#load game	
-		elif self.player_selection == "v":
-			pass
 
+	def input_menu_constants(self):		
 		#quit
-		elif self.player_selection == "x":
+		if self.player_selection == "x":
+			self.list_of_possible_player_selections.append(self.player_selection)
 			self.is_alive = False
 	
-		#invalid input	
-		else:
-			self.display_selection_error("error1")	
+
+	def input_validity_checker(self):
+		#don't check player name
+		if self.location == "create_player" or self.player_selection == "":
+			self.list_of_possible_player_selections = []
+			return self.player_selection
+		else: 		
+			#take all possible selections and compare them to input, if no match then return error
+			list_of_matches = []
+			for item in self.list_of_possible_player_selections:
+				if self.player_selection == item:
+					list_of_matches.append(item)
+
+			if list_of_matches == []:
+				self.error = "error1"				
+
+		self.list_of_possible_player_selections = []
+
+	
 
 
-	def display_selection_error(self, error_type):
-		self.error = True
-		self.error_type = "error1"
+	#print HUD
+	def HUD (self):
+		if self.player.name:		
+			print("\tSANITY: {}\t\t{}\t\tHEALTH: {}".format(self.player.get_sanity(), self.player.name, self.player.get_health() ))
 
 
-	#get player input and send it to the action function
-	def player_input(self):
-		if self.location == "create_player":
-			self.player_selection = input("\t> ")
-		else:	
-			self.player_selection = input("\t> ").lower()
-			
-
-	def HUD (self):		
-		print("\tSANITY: {}\t\t{}\t\tHEALTH: {}"
-			.format(self.player.get_sanity(), self.player.name, self.player.get_health() ))
-
-
+	#print title
 	def title (self):
 		print("\t╔╦╗┬ ┬┌─┐  ╔═╗┬ ┬┌─┐  ╔═╗┌─┐  ╔╦╗┬ ┬┌─┐┌┬┐┬ ┬")
 		print("\t ║ ├─┤├┤   ║╣ └┬┘├┤   ║ ║├┤    ║ ├─┤│ │ │ ├─┤")
 		print("\t ╩ ┴ ┴└─┘  ╚═╝ ┴ └─┘  ╚═╝└     ╩ ┴ ┴└─┘ ┴ ┴ ┴")
 	
 
+	#identify and print error type	
 	def error_message (self):
-		if self.error: 
+		if self.error != "no_error": 
 			print("\t*" * 5)
-			print("\t" + textwrap.fill(self.DESCRIPTIONS["error1"], self.text_width)
-				.format(self.player_selection))
+
+			if self.error == "error1":
+				print("\t" + textwrap.fill(self.DESCRIPTIONS["error1"], self.text_width).format(self.player_selection))
+
+			else:
+				for item in self.DESCRIPTIONS[self.error]:
+					print("\t" + textwrap.fill(item, self.text_width))
+			
 			print("\t*" * 5 + "\n")
+			self.error = "no_error"
 
-			self.error = False
 
-
-	def print_standard_menu(self):
-		#if player name exists 
-		if self.player.name:		
-			for option in self.MENU:
-				print("\t" + option)
-		#no player exists	
-		else: 	
-			for option in self.MENU_NO_PLAYER:
+	def print_menu_constants(self):
+		#player input
+		if self.location != "create_player" and self.location != "exit":	
+			for option in self.MENU_CONSTANTS:
 				print("\t" + option)
 
-		#player input	
-		print("\n\tWhat would you like to do?")
+			print("\n\tWhat would you like to do?")
 
 
 	#after every action, create new screen	
@@ -162,6 +181,8 @@ class Display(object):
 
 		#wipe screen
 		os.system('clear')
+		# print("*" * 10)
+		# print("room = " + self.location)
 
 		#title
 		self.title()
@@ -171,22 +192,43 @@ class Display(object):
 		print("\n")
 
 		#description
+
 		self.description()
 		print("\n")
 
 		#error messages
 		self.error_message()
 
-		#create a player - otherwise print menus
+		#room specific menu actions
+		self.room.print_action_options()
+
+		#room specific menu movements
+		self.room.print_movement_options()
+
+		#standard menu options
+		self.print_menu_constants()
+
+
+	#get player input
+	def player_gives_input(self):
 		if self.location == "create_player":
-			print ("\tWhat is your name?")
-		else:		
-			#room specific menu options
-			self.room.movement_options()
-
-			#standard menu options
-			self.print_standard_menu()
+			self.player_selection = input("\tEnter Your Name > ")
+		else:	
+			self.player_selection = input("\t> ").lower()
 
 
+	#action based on player input		
+	def menu_input_handler(self):
 
+		if self.location == "start":
+			self.input_start()
 
+		elif self.location == "create_player":
+			self.input_create_player()
+
+		elif self.location == "atrium":
+			self.input_atrium()			
+
+		self.input_menu_constants()	
+
+		self.input_validity_checker()
