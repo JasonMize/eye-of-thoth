@@ -4,6 +4,7 @@ import random
 import textwrap
 
 from player import Player
+from player_input import PlayerInput
 
 
 class Display(object):
@@ -13,7 +14,7 @@ class Display(object):
 	)
 	
 	DESCRIPTIONS = {
-		"error1" : ("'{}' is an invalid option, please try again.",),
+		"error1" : ("That is an invalid option, please try again.",),
 		"error2" : ("That name is too long. 10 characters or less, please.",),
 		"error_insane" : ("Maybe a quiet cup of tea would help you regain a bit of sanity?",
 			"GAME OVER",
@@ -28,7 +29,8 @@ class Display(object):
 			),
 		"atrium" : ("Lightning flashes as you kick in the front door. Clicking on your flashlight, you step across the threshold.", 
 			"Playing your flashlight around the room you see an enormous chandelier glittering above a plush floor rug. In the dimness, it is hard to tell if the rugstain is wine or blood.",
-			"Straight ahead is a closed door. Behind you is the exit. To the right appears to be a library. To the left an enormous dining hall.",
+			"Straight ahead is a closed door. Behind you is the exit.",
+			#" To the right appears to be a library. To the left an enormous dining hall.",
 			),
 		"atrium_closet" : ("Stepping forward across the winestained rug (blood?), you grasp the doorknob firmly and open the door.",
 			"You are unsurprised to discover a closet full of moth eaten fur coats... and then a small movement pulls your eye to the shadowy floor.", 
@@ -41,10 +43,11 @@ class Display(object):
 
 
 	def __init__(self):
+		self.player_input = PlayerInput(self)
 		self.text_width = 80
 		self.location = "start"
+		self.player_hud = ""
 		self.error = "no_error"
-
 
 
 	def description(self):
@@ -55,9 +58,8 @@ class Display(object):
 		
 
 	#print HUD
-	def HUD (self, player):
-		if player.name:		
-			print("\tSANITY: {}\t\t{}\t\tHEALTH: {}".format(player.get_sanity(), player.name, player.get_health() ))
+	def hud (self):
+		print(self.player_hud)
 
 
 	#print title
@@ -67,18 +69,13 @@ class Display(object):
 		print("\t ╩ ┴ ┴└─┘  ╚═╝ ┴ └─┘  ╚═╝└     ╩ ┴ ┴└─┘ ┴ ┴ ┴")
 	
 
-	#identify and print error type	
-	def error_message (self):
+	def print_error_message(self):
 		if self.error != "no_error": 
 			print("\t*" * 5)
 
-			if self.error == "error1":
-				print("\t" + textwrap.fill(self.DESCRIPTIONS["error1"], self.text_width).format(self.player_selection))
+			for item in self.DESCRIPTIONS[self.error]:
+				print("\t" + textwrap.fill(item, self.text_width))					
 
-			else:
-				for item in self.DESCRIPTIONS[self.error]:
-					print("\t" + textwrap.fill(item, self.text_width))
-			
 			print("\t*" * 5 + "\n")
 			self.error = "no_error"
 
@@ -86,25 +83,25 @@ class Display(object):
 	def print_menu_constants(self):
 		#player input
 		if self.location != "create_player" and self.location != "exit":	
-			for option in self.MENU_CONSTANTS:
-				print("\t" + option)
+			for item in self.MENU_CONSTANTS:
+				print("\t" + item)
 
 			print("\n\tWhat would you like to do?")
 
 
 	#after every action, create new screen	
-	def rebuild_display (self, display_room):
+	def rebuild_display (self, display_room, player_input, player):
 
 		#wipe screen
-		os.system('clear')
-		# print("*" * 10)
-		# print("room = " + self.location)
+		# os.system('clear')
+		print("*" * 10)
+		print("room = " + self.location)
 
 		#title
 		self.title()
 
 		#HUD
-		self.HUD(Player())
+		player.hud()
 		print("\n")
 
 		#description
@@ -112,7 +109,7 @@ class Display(object):
 		print("\n")
 
 		#error messages
-		self.error_message()
+		self.print_error_message()
 
 		#room specific menu actions
 		display_room.print_action_options()

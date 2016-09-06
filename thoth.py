@@ -5,9 +5,9 @@ from input_handler import InputHandler
 from player_input import PlayerInput
 
 display = Display()
-player = Player()
-display_room = DisplayRoom()
-player_input = PlayerInput()
+display_room = DisplayRoom(display)
+player_input = PlayerInput(display)
+player = Player(display, display_room, player_input)
 input_handler = InputHandler(display, player_input, player)
 
 #overall game keeps running	
@@ -20,10 +20,10 @@ def main ():
 	while alive():
 	
 		#draw display
-		display.rebuild_display(display_room)
+		display.rebuild_display(display_room, player_input, player)
 	
 		#take player input	
-		player_input.player_gives_input(display)
+		player_input.player_gives_input()
 
 		#act on player input	
 		input_handler.menu_input_handler()

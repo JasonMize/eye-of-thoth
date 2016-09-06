@@ -18,8 +18,8 @@ class DisplayRoom (Display):
 
 
 
-	def __init__(self):
-		super(DisplayRoom, self).__init__()
+	def __init__(self, display):
+		self.display = display
 		self.room_south = ""
 		self.room_north = ""
 		self.room_east = ""
@@ -36,12 +36,12 @@ class DisplayRoom (Display):
 			"2" : "2. = Crush The Serpent Head Beneath Your Heel",
 		}
 
-		if self.location == "start":
+		if self.display.location == "start":
 			for key, value in MENU_ACTION_START.items():
 				if key == "N":
-					print ("\t" + value)				
-
-		elif self.location == "atrium_closet":
+					print ("\t" + value)	
+		
+		elif self.display.location == "atrium_closet":
 			for key, value in MENU_ACTION_ATRIUM_CLOSET.items():
 				print ("\t" + value)
 
@@ -52,11 +52,11 @@ class DisplayRoom (Display):
 		MENU_MOVEMENT_ATRIUM = {
 			"W" : "W = Open The Door",
 			"S" : "S = Turn And Flee The House",
-			"D" : "D = Enter The Library",
-			"A" : "A = Enter The Dining Hall",
+			#"D" : "D = Enter The Library",
+			#"A" : "A = Enter The Dining Hall",
 		}
 
-		if self.location == "atrium":
+		if self.display.location == "atrium":
 			for key, value in MENU_MOVEMENT_ATRIUM.items():
 				print("\t" + value)
 	

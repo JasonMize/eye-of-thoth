@@ -16,12 +16,16 @@ class Player(object):
 	}
 
 
-	def __init__(self):
+	def __init__(self, display, display_room, player_input):
+		self.display = display
+		self.display_room = display_room
+		self.player_input = player_input
 		self.is_alive = True
 		self.name = ""
 		self.health = 4
 		self.sanity = 4
-		self.inventory = ""
+		self.player_physical_attack = 4
+		self.player_dispel_ability = 4
 
 
 	#set health	
@@ -29,8 +33,8 @@ class Player(object):
 		self.health += adjustment
 		if self.healh <= 1:
 			self.health = 1
-			self.display.rebuild_display()
-			self.display.is_alive = False
+			self.display.rebuild_display(self.display_room, self.player_input, self)
+			self.is_alive = False
 
 
 	#set sanity	
@@ -39,8 +43,8 @@ class Player(object):
 		print (self.sanity)
 		if self.sanity <= 1:
 			self.sanity = 1
-			self.display.rebuild_display()
-			self.display.is_alive = False
+			self.display.rebuild_display(self.display_room, self.player_input, self)
+			self.is_alive = False
 
 
 	def inventory(self):
@@ -60,6 +64,9 @@ class Player(object):
 	def get_sanity(self):
 		return self.SANITY[self.sanity]
 
+	def hud(self):	
+		if self.name:		
+			print("\tSANITY: {}\t\t{}\t\tHEALTH: {}".format(self.get_sanity(), self.name, self.get_health() ))
 
 
 

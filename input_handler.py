@@ -6,8 +6,11 @@ class InputHandler (object):
 		self.display = display
 		self.player_input = player_input
 		self.player = player
+	
+
 
 	def input_start(self):			
+		self.player_input.list_of_possible_player_selections.append("n")
 		if self.player_input.player_selection == "n":
 			self.display.location = "create_player"
 
@@ -19,6 +22,10 @@ class InputHandler (object):
 
 
 	def input_atrium(self):			
+		self.player_input.list_of_possible_player_selections.append("w")
+		self.player_input.list_of_possible_player_selections.append("s")
+		self.player_input.list_of_possible_player_selections.append("d")
+		self.player_input.list_of_possible_player_selections.append("a")
 		#open the door
 		if self.player_input.player_selection == "w":
 			self.display.location = "atrium_closet"
@@ -26,7 +33,7 @@ class InputHandler (object):
 		#turn and flee the house
 		elif self.player_input.player_selection == "s":
 			self.display.location = "exit"
-			self.error = "error_insane"
+			self.display.error = "error_insane"
 			self.player.sanity_adjustment(-3)
 
 		#room on right
@@ -39,7 +46,11 @@ class InputHandler (object):
 			pass
 			#TODO
 
+
 	def input_atrium_closet(self):
+		self.player_input.list_of_possible_player_selections.append("1")
+		self.player_input.list_of_possible_player_selections.append("2")
+
 		#slam the door
 		if self.player_input.player_selection == "1":
 			self.display.location == "atrium_monster_flee"
@@ -51,28 +62,14 @@ class InputHandler (object):
 			else:
 				self.display.location == "atrium_monster_fight_lose"
 
+
 	def input_menu_constants(self):		
+		self.player_input.list_of_possible_player_selections.append("x")
+
 		#quit
 		if self.player_input.player_selection == "x":
 			self.player.is_alive = False
 	
-
-	def input_validity_checker(self):
-		#don't check player name
-		if self.display.location == "create_player" or self.player_input.player_selection == "":
-			self.player_input.list_of_possible_player_selections = []
-			return self.player_input.player_selection
-		else: 		
-			#take all possible selections and compare them to input, if no match then return error
-			list_of_matches = []
-			for item in self.player_input.list_of_possible_player_selections:
-				if self.player_input.player_selection == item:
-					list_of_matches.append(item)
-
-			if list_of_matches == []:
-				self.error = "error1"				
-
-		self.player_input.list_of_possible_player_selections = []
 
 
 	#action based on player input		
@@ -92,4 +89,4 @@ class InputHandler (object):
 
 		self.input_menu_constants()	
 
-		self.input_validity_checker()
+		self.player_input.input_validity_checker()
