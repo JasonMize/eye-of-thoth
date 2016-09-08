@@ -18,6 +18,7 @@ class Monster(object):
 		print ("monster health: " + str(self.monster_health))
 		if self.monster_health <= 1:
 			self.monster_health = 1
+			self.is_alive = False
 			self.display.location = "atrium_monster_dead"
 			self.display.error = "monster_dead"
 			
@@ -29,6 +30,7 @@ class Monster(object):
 		print ("monster sanity: " + str(self.monster_sanity))
 		if self.monster_sanity <= 1:
 			self.monster_sanity = 1
+			self.is_alive = False
 			self.display.location = "atrium_monster_insane"
 			self.display.error = "monster_insane"
 			

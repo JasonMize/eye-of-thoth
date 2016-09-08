@@ -54,24 +54,24 @@ class Display(object):
 			"YOU TAKE DAMAGE!",
 			"As you scramble to your feet, the serpent stares for a moment and then begins to speak...", 
 			"'Foolish mortal. I am Apophis! Your body shall feed my young.'"),
-		"atrium_fight_loop_physical_win" : ("You strike Apophis with your hands!",
+		"atrium_fight_loop_physical_win" :  ("You strike Apophis with your hands!",
 			"That seems to have some effect so you do it some more.",
 			),
-		"atrium_fight_loop_physical_lose" : ("You attempt to strike Apophis but he strikes you first!",
+		"atrium_fight_loop_physical_lose" :  ("You attempt to strike Apophis but he strikes you first!",
 			"YOU TAKE DAMAGE!",
 			"Maybe if you'd taken Gym instead of Latin?",
 			),
-		"atrium_fight_loop_mystical_win" : ("Shouting a mystical phrase of banishment that your Professor of Egyptology taught you seems to have some effect.", 
+		"atrium_fight_loop_mystical_win" :  ("Shouting a mystical phrase of banishment that your Professor of Egyptology taught you seems to have some effect.", 
 			"The serpent is slightly transparent around the edges.", 
 			"Keep it up!",
 			),
-		"atrium_fight_loop_mystical_lose" : ("Your attempt to banish Apophis to the astral plane gives you an unfortunate glimpse of the other side.",
+		"atrium_fight_loop_mystical_lose" :  ("Your attempt to banish Apophis to the astral plane gives you an unfortunate glimpse of the other side.",
 			"YOU LOSE SANITY!",
 			"I'm sure you'll feel better after a small lie down.",
 			),
-		"atrium_monster_dead" : ("You have killed Apophis! Well done, that.",
+		"atrium_monster_dead" :  ("You have killed Apophis! Well done, that.",
 			),
-		"atrium_monster_insane" : ("You have banished Apophis from the material plane! And Mother said you'd never amount to anything.",
+		"atrium_monster_insane" :  ("You have banished Apophis from the material plane! And Mother said you'd never amount to anything.",
 			),
 		
 	}
@@ -129,9 +129,9 @@ class Display(object):
 	def rebuild_display (self, display_room, player_input, player):
 
 		#wipe screen
-		os.system('clear')
-		# print("*" * 10)
-		# print("room = " + self.location)
+		# os.system('clear')
+		print("*" * 10)
+		print("room = " + self.location)
 
 		#title
 		self.title()

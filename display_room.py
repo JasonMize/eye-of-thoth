@@ -57,7 +57,7 @@ class DisplayRoom (Display):
 
 			elif (self.display.location == "atrium_monster_dead" 
 				or self.display.location == "atrium_monster_insane"):
-					print("")			
+				pass
 
 	#print movement options for various rooms	
 	def print_movement_options(self):

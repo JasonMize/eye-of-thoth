@@ -25,16 +25,14 @@ class InputHandler (object):
 	def input_atrium(self):			
 		self.player_input.list_of_possible_player_selections.append("w")
 		self.player_input.list_of_possible_player_selections.append("s")
-		self.player_input.list_of_possible_player_selections.append("d")
-		self.player_input.list_of_possible_player_selections.append("a")
-		#open the door
-		if self.player_input.player_selection == "w":
-			self.display.location = "atrium_closet"
-
 		#turn and flee the house
-		elif self.player_input.player_selection == "s":
+		if self.player_input.player_selection == "s":
 			self.display.location = "exit"
 			self.player.sanity_adjustment(-3)
+		#open the door
+		elif self.player_input.player_selection == "w":
+			self.display.location = "atrium_closet"
+
 
 
 	def input_atrium_closet(self):
@@ -47,37 +45,26 @@ class InputHandler (object):
 
 		#fight the serpent	
 		elif self.player_input.player_selection == "2":
-			if self.combatants.physical_combat() == "win":
-				self.display.location = "atrium_monster_fight_win"
-			else:
-				self.display.location = "atrium_monster_fight_lose"
-
+			self.combatants.physical_combat()
+			
+			
 
 	def input_atrium_fight_loop(self):
 		self.player_input.list_of_possible_player_selections.append("1")
 		self.player_input.list_of_possible_player_selections.append("2")
 		#punch the snake		
 		if self.player_input.player_selection == "1":
-			if self.combatants.physical_combat() == "win":
-				self.display.location = "atrium_fight_loop_physical_win"
-			else:
-				self.display.location = "atrium_fight_loop_physical_lose"
+			self.combatants.physical_combat() 
 		#exorcism
 		elif self.player_input.player_selection == "2":
-			if self.combatants.mystical_combat == "win":	
-				self.display.location = "atrium_fight_loop_mystical_win"
-			else:
-				print("	here - 2")
-				self.display.location = "atrium_fight_loop_mystical_lose"	
-
+			self.combatants.mystical_combat()	
+			
 
 	def input_atrium_monster_dead(self):			
 		pass
 
-
 	def input_atrium_monster_insane(self):
 		pass
-
 
 	def input_menu_constants(self):		
 		self.player_input.list_of_possible_player_selections.append("x")
