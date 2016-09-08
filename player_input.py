@@ -12,6 +12,10 @@ class PlayerInput (object):
 	def player_gives_input(self):
 		if self.display.location == "create_player":
 			self.player_selection = input("\tEnter Your Name > ")
+			if self.player_selection == "":
+				self.player_selection = "Anonymous"
+			elif self.player_selection == " " or self.player_selection == "  ":
+				self.player_selection = "Invisible"	
 		else:	
 			self.player_selection = input("\t> ").lower()
 

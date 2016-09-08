@@ -2,10 +2,11 @@
 
 class InputHandler (object):
 
-	def __init__(self, display, player_input, player):
+	def __init__(self, display, player_input, player, combatants):
 		self.display = display
 		self.player_input = player_input
 		self.player = player
+		self.combatants = combatants
 	
 
 
@@ -33,18 +34,7 @@ class InputHandler (object):
 		#turn and flee the house
 		elif self.player_input.player_selection == "s":
 			self.display.location = "exit"
-			self.display.error = "error_insane"
 			self.player.sanity_adjustment(-3)
-
-		#room on right
-		elif self.player_input.player_selection == "d":
-			pass
-			#TODO
-
-		#room on left
-		elif self.player_input.player_selection == "a":
-			pass
-			#TODO
 
 
 	def input_atrium_closet(self):
@@ -53,14 +43,40 @@ class InputHandler (object):
 
 		#slam the door
 		if self.player_input.player_selection == "1":
-			self.display.location == "atrium_monster_flee"
-		
+			self.display.location = "atrium_monster_flee"
+
 		#fight the serpent	
 		elif self.player_input.player_selection == "2":
-			if self.monster.physical_combat() == "win":
-				self.display.location == "atrium_monster_fight_win"
+			if self.combatants.physical_combat() == "win":
+				self.display.location = "atrium_monster_fight_win"
 			else:
-				self.display.location == "atrium_monster_fight_lose"
+				self.display.location = "atrium_monster_fight_lose"
+
+
+	def input_atrium_fight_loop(self):
+		self.player_input.list_of_possible_player_selections.append("1")
+		self.player_input.list_of_possible_player_selections.append("2")
+		#punch the snake		
+		if self.player_input.player_selection == "1":
+			if self.combatants.physical_combat() == "win":
+				self.display.location = "atrium_fight_loop_physical_win"
+			else:
+				self.display.location = "atrium_fight_loop_physical_lose"
+		#exorcism
+		elif self.player_input.player_selection == "2":
+			if self.combatants.mystical_combat == "win":	
+				self.display.location = "atrium_fight_loop_mystical_win"
+			else:
+				print("	here - 2")
+				self.display.location = "atrium_fight_loop_mystical_lose"	
+
+
+	def input_atrium_monster_dead(self):			
+		pass
+
+
+	def input_atrium_monster_insane(self):
+		pass
 
 
 	def input_menu_constants(self):		
@@ -86,6 +102,22 @@ class InputHandler (object):
 
 		elif self.display.location == "atrium_closet":
 			self.input_atrium_closet()
+
+		elif (self.display.location == "atrium_monster_fight_win" 
+			or self.display.location == "atrium_monster_fight_lose" 
+			or self.display.location == "atrium_monster_flee"
+			or self.display.location == "atrium_fight_loop_physical_win"
+			or self.display.location == "atrium_fight_loop_physical_lose"
+			or self.display.location == "atrium_fight_loop_mystical_win"
+			or self.display.location == "atrium_fight_loop_mystical_lose"):
+
+			self.input_atrium_fight_loop()	
+
+		elif self.display.location == "atrium_monster_dead":
+			self.input_atrium_monster_dead()
+
+		elif self.display.location == "atrium_monster_insane":
+			self.input_atrium_monster_insane()	
 
 		self.input_menu_constants()	
 

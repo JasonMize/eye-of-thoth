@@ -3,12 +3,17 @@ from player import Player
 from display_room import DisplayRoom
 from input_handler import InputHandler
 from player_input import PlayerInput
+from combatants import Combatants
+from monster import Monster
+
 
 display = Display()
 display_room = DisplayRoom(display)
 player_input = PlayerInput(display)
 player = Player(display, display_room, player_input)
-input_handler = InputHandler(display, player_input, player)
+monster = Monster(display, display_room, player_input)
+combatants = Combatants(player, monster, display)
+input_handler = InputHandler(display, player_input, player, combatants)
 
 #overall game keeps running	
 def alive ():
@@ -31,3 +36,16 @@ def main ():
 
 if  __name__ == '__main__':
 	main()
+
+
+
+
+
+
+
+
+
+
+
+
+	

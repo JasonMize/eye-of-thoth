@@ -16,14 +16,8 @@ class DisplayRoom (Display):
 	)
 
 
-
-
 	def __init__(self, display):
 		self.display = display
-		self.room_south = ""
-		self.room_north = ""
-		self.room_east = ""
-		self.room_west = ""
 
 
 	#print action options for various rooms	
@@ -32,32 +26,48 @@ class DisplayRoom (Display):
 			"N" : "N = New Character",
 		}
 		MENU_ACTION_ATRIUM_CLOSET = {
-			"1" : "1. = Slam The Closet Door",
-			"2" : "2. = Crush The Serpent Head Beneath Your Heel",
+			"1" : "1 = Slam The Closet Door",
+			"2" : "2 = Crush The Serpent Head Beneath Your Booted Heel",
+		}
+		MENU_ACTION_ATRIUM_MONSTER_FIGHT = {
+			"1" : "1 = Punch That Snake!",
+			"2" : "2 = Exorcism!",
 		}
 
-		if self.display.location == "start":
-			for key, value in MENU_ACTION_START.items():
-				if key == "N":
-					print ("\t" + value)	
-		
-		elif self.display.location == "atrium_closet":
-			for key, value in MENU_ACTION_ATRIUM_CLOSET.items():
-				print ("\t" + value)
+		if self.display.error != "error_dead" and self.display.error != "error_insane":
+			if self.display.location == "start":
+				for key, value in sorted(MENU_ACTION_START.items()):
+					if key == "N":
+						print ("\t" + value)	
+			
+			elif self.display.location == "atrium_closet":
+				for key, value in sorted(MENU_ACTION_ATRIUM_CLOSET.items()):
+					print ("\t" + value)
 
+			elif (self.display.location == "atrium_monster_fight_win" 
+				or self.display.location == "atrium_monster_flee" 
+				or self.display.location == "atrium_monster_fight_lose"
+				or self.display.location == "atrium_fight_loop_physical_win"
+				or self.display.location == "atrium_fight_loop_physical_lose"
+				or self.display.location == "atrium_fight_loop_mystical_win"
+				or self.display.location == "atrium_fight_loop_mystical_lose"):
 
+				for key, value in sorted(MENU_ACTION_ATRIUM_MONSTER_FIGHT.items()):
+					print ("\t" + value)			
+
+			elif (self.display.location == "atrium_monster_dead" 
+				or self.display.location == "atrium_monster_insane"):
+					print("")			
 
 	#print movement options for various rooms	
 	def print_movement_options(self):
 		MENU_MOVEMENT_ATRIUM = {
 			"W" : "W = Open The Door",
 			"S" : "S = Turn And Flee The House",
-			#"D" : "D = Enter The Library",
-			#"A" : "A = Enter The Dining Hall",
 		}
 
 		if self.display.location == "atrium":
-			for key, value in MENU_MOVEMENT_ATRIUM.items():
+			for key, value in sorted(MENU_MOVEMENT_ATRIUM.items()):
 				print("\t" + value)
 	
 
