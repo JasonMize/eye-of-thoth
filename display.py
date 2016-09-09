@@ -129,9 +129,9 @@ class Display(object):
 	def rebuild_display (self, display_room, player_input, player):
 
 		#wipe screen
-		# os.system('clear')
-		print("*" * 10)
-		print("room = " + self.location)
+		os.system('clear')
+		# print("*" * 10)
+		# print("room = " + self.location)
 
 		#title
 		self.title()
