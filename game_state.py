@@ -51,6 +51,50 @@ class GameState(object):
         else:
             self.state = "start"
 
+        self.draw_menu(display)
+
+
+    def draw_menu (self, display):
+        if self.state == "start":
+            #N for create player
+            pass
+        elif self.state == "create":
+            #always pass
+            return
+        elif self.state == "explore":
+            #room menu + action menu 
+            pass
+        elif self.state == "save":
+            return
+        elif self.state == "load":
+            return
+        elif self.state == "quit":
+            return
+        else:
+            pass
+        # for line in self.MENU["standard"]:
+        #      self.display.draw_text ()
+        #      #TODO: display standard menu choices
+
+        # 3 types of menu: 
+
+        #     actions: (numbers)
+        #         1 = Fight
+        #         2 = Exorcism
+
+        #     movements: (wasd)
+        #         W = North
+        #         A = West
+        #         S = South
+        #         D = East
+
+        #     standard:
+        #         C = Save
+        #         V = Load
+        #         X = Exit
+
+
+
     def draw_start (self, display):       
         for line in self.DESCRIPTIONS["start"]:
             self.display.draw_text (line)
