@@ -2,7 +2,7 @@
 
 ## Setup
 
-* mkvirtualenv -p python3
+* mkvirtualenv -p python3 
 * pip install -r requirements.txt
 
 ## Play!
